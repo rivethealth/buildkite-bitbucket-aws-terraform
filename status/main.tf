@@ -10,7 +10,7 @@ data "archive_file" "lambda" {
 
 resource "aws_iam_role" "status" {
   name = "${var.name}"
-  path = "/buildkite-bitbucker/"
+  path = "/buildkite-bitbucket/"
 
   assume_role_policy = <<EOF
 {
@@ -65,18 +65,18 @@ resource "aws_lambda_function" "status" {
 
   environment {
     variables {
-      BITBUCKET_URL = "${var.bitbucket_url}"
+      BITBUCKET_URL    = "${var.bitbucket_url}"
       CREDENTIALS_PATH = "${var.credentials_ssm_path}"
     }
   }
 }
 
 resource "aws_lambda_permission" "status-sns" {
-    action        = "lambda:InvokeFunction"
-    function_name = "${aws_lambda_function.status.function_name}"
-    principal     = "sns.amazonaws.com"
-    source_arn    = "${var.sns_topic_arn}"
-    statement_id = "AllowExecutionFromSNS"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.status.function_name}"
+  principal     = "sns.amazonaws.com"
+  source_arn    = "${var.sns_topic_arn}"
+  statement_id  = "AllowExecutionFromSNS"
 }
 
 resource "aws_sns_topic_subscription" "status" {
@@ -84,7 +84,7 @@ resource "aws_sns_topic_subscription" "status" {
   protocol  = "lambda"
   topic_arn = "${var.sns_topic_arn}"
 
-    filter_policy = <<EOF
+  filter_policy = <<EOF
 {
   "event": ["build.finished", "build.scheduled"]
 }
