@@ -18,8 +18,8 @@ const act = async message => {
         console.log(`Marking ${build.branch} ${build.commit} as #${state}`);
         const data = Buffer.from(JSON.stringify({
             description: pipeline.description,
-            name: `${pipeline.name} ${build.number}`,
-            key: build.branch,
+            name: `Buildkite - ${pipeline.name} #${build.number}`,
+            key: `buildkite-${pipeline.name}-${build.branch}`,
             state,
             url: build.web_url,
 
