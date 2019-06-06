@@ -68,7 +68,7 @@ resource "aws_lambda_function" "build" {
   timeout          = 60
 
   environment {
-    variables {
+    variables = {
       BITBUCKET_CREDENTIALS_PATH = "${var.bitbucket_credentials_ssm_path}"
       BITBUCKET_SECRET_PATH      = "${var.bitbucket_secret_ssm_path}"
       BITBUCKET_URL              = "${var.bitbucket_url}"
